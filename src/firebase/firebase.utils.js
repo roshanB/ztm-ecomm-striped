@@ -79,8 +79,15 @@ export const convertCollectionSnapshotToMap = (collection) => {
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
+/* Tried_sign_in_using_saga - 
+// we need to call auth.signInWithPopup(googleProvider); from saga to get userAuth in return
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({ prompt: "select_account" });
 export const signInWithGoogle = () => auth.signInWithPopup(provider);
+*/
+// Tried_sign_in_using_saga - exporting googleProvider as we need to call auth.signInWithPopup(googleProvider); from saga to get userAuth in return
+export const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: "select_account" });
+export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
 export default firebase;
