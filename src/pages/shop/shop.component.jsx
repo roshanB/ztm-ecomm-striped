@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Route } from "react-router-dom";
 import { createStructuredSelector } from "reselect";
+import CollectionsOverviewContainer from "../../components/collections-overview/collections-overview-container.component";
 
 import CollectionsOverview from "../../components/collections-overview/collections-overview.component";
 import WithSpinner from "../../components/with-spinner/with-spinner.component";
@@ -11,12 +12,15 @@ import {
 } from "../../firebase/firebase.utils";
 import {
   fetchCollectionStartAsync,
+  fetchCollectionStart,
   updateCollection,
 } from "../../redux/shop/shop.actions";
+
 import {
   selectIsCollectionsLoaded,
   selectIsFetching,
 } from "../../redux/shop/shop.selectors";
+import CollectionPageContainer from "../collection/collection-container.component";
 import CollectionPage from "../collection/collection.component";
 
 //Tried_WithSpinnerHOC
@@ -64,7 +68,9 @@ class ShopPage extends React.Component {
     });*/
 
     //Tried_moved_to_thunk_action
-    this.props.fetchCollectionStartAsync();
+    //Tried_move_to_saga
+    // this.props.fetchCollectionStartAsync();
+    this.props.fetchCollectionsStart();
   }
 
   render() {
@@ -77,12 +83,14 @@ class ShopPage extends React.Component {
         <Route
           exact
           path={`${match.path}`}
-          render={(props) => (
-            <CollectionsOverviewWithSpinner
-              isLoading={this.props.isLoading}
-              {...props}
-            />
-          )}
+          component={CollectionsOverviewContainer}
+          // Tried_moved_to_container_pattern_to_avoid_isLoading
+          // render={(props) => (
+          //   <CollectionsOverviewWithSpinner
+          //     isLoading={this.props.isLoading}
+          //     {...props}
+          //   />
+          // )}
         />
         {/* Tried_WithSpinnerHOC
         <Route
@@ -91,12 +99,14 @@ class ShopPage extends React.Component {
         /> */}
         <Route
           path={`${match.path}/:collectionId`}
-          render={(props) => (
-            <CollectionPageWithSpinner
-              {...props}
-              isLoading={this.props.isCollectionsLoading}
-            />
-          )}
+          component={CollectionPageContainer}
+          // Tried_moved_to_container_pattern_to_avoid_isLoading
+          // render={(props) => (
+          //   <CollectionPageWithSpinner
+          //     {...props}
+          //     isLoading={this.props.isCollectionsLoading}
+          //   />
+          // )}
         />
       </div>
     );
@@ -107,7 +117,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     updateCollectionMap: (collection) => dispatch(updateCollection(collection)),
     //Tried_moved_to_thunk_action
-    fetchCollectionStartAsync: () => dispatch(fetchCollectionStartAsync()),
+    //Tried_move_to_saga
+    // fetchCollectionStartAsync: () => dispatch(fetchCollectionStartAsync()),
+    fetchCollectionsStart: () => dispatch(fetchCollectionStart()),
   };
 };
 
