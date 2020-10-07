@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
@@ -22,64 +22,33 @@ import { checkUserSession, setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { selectCollectionsForPreview } from "./redux/shop/shop.selectors";
 
-class App extends React.Component {
-  unsubscribeFromAuth = null;
-
-  componentDidMount() {
-    const { setCurrentUser, collectionsArray, checkUserSession } = this.props;
-    // Tried_check_user_session_on_firebase_auth;
+const App = ({ checkUserSession, currentUser }) => {
+  useEffect(() => {
     checkUserSession();
-    // Tried_sign_in_using_saga
-    // Tried_check_user_session_on_firebase_auth - following auth.onAuthStateChanged is used for this
-    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-    //   if (userAuth) {
-    //     const userRef = await createUserProfileDocument(userAuth);
+  }, [checkUserSession]);
+  // Tried_above_for_now_just_pass_checkUserSession
+  // as the compiler doesn't know that it's a function coming from mapDispatchToProps
+  // so just to satisfy the compiler pass the same in dep array,
+  // but if it is actually the prop coming from parent component we need to do something (next lession)
 
-    //     userRef.onSnapshot((snapShot) => {
-    //       setCurrentUser({
-    //         id: snapShot.id,
-    //         ...snapShot.data(),
-    //       });
-    //     });
-    //   }
-
-    //   setCurrentUser(userAuth);
-    //   /* Tried_one_time_activity
-    //   addCollectionAndDocuments(
-    //     "collections",
-    //     collectionsArray.map(({ title, items }) => ({ title, items }))
-    //   );*/
-    // });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-
-  render() {
-    return (
-      <div>
-        <Header />
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
-          <Route exact path="/checkout" component={CheckoutPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              this.props.currentUser ? (
-                <Redirect to="/" />
-              ) : (
-                <SignInAndSignUpPage />
-              )
-            }
-          />
-        </Switch>
-      </div>
-    );
-  }
-}
+  return (
+    <div>
+      <Header />
+      <Switch>
+        <Route exact path="/" component={HomePage} />
+        <Route path="/shop" component={ShopPage} />
+        <Route exact path="/checkout" component={CheckoutPage} />
+        <Route
+          exact
+          path="/signin"
+          render={() =>
+            currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />
+          }
+        />
+      </Switch>
+    </div>
+  );
+};
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
