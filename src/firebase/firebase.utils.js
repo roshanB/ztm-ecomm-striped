@@ -90,4 +90,14 @@ export const googleProvider = new firebase.auth.GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: "select_account" });
 export const signInWithGoogle = () => auth.signInWithPopup(googleProvider);
 
+// Tried_check_user_session_on_firebase_auth
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribeOnAuth = auth.onAuthStateChanged((userAuth) => {
+      unsubscribeOnAuth();
+      resolve(userAuth);
+    }, reject);
+  });
+};
+
 export default firebase;

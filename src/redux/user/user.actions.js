@@ -29,3 +29,31 @@ export const signInStartFailure = (errorMessage) => {
     payload: errorMessage,
   };
 };
+
+export const checkUserSession = () => {
+  return { type: UserActionTypes.CHECK_USER_SESSION };
+};
+
+export const signOutStart = () => {
+  return { type: UserActionTypes.SIGN_OUT_START };
+};
+
+export const signOutStartSuccess = () => {
+  return { type: UserActionTypes.SIGN_OUT_START_SUCCESS };
+};
+
+export const signOutStartFailure = (message) => {
+  return { type: UserActionTypes.SIGN_OUT_START_FAILURE, payload: message };
+};
+
+export const signUpStart = (userData) => {
+  return { type: UserActionTypes.SIGN_UP_START, payload: userData };
+};
+
+export const signUpStartSuccess = (userData) => {
+  return { type: UserActionTypes.SIGN_UP_START_SUCCESS, payload: userData };
+};
+
+export const signUpStartFailure = (message) => {
+  return { type: UserActionTypes.SIGN_UP_START_FAILURE, payload: message };
+};
