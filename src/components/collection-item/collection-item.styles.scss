@@ -20,6 +20,13 @@
     position: absolute;
     top: 255px;
     display: none;
+
+    @media screen and (max-width: 800px) {
+      display: block;
+      opacity: 0.9;
+      min-width: unset; //Tried_min_width_is_set_in_custom_button_styling_hence_unset
+      padding: 0 10px; //Tried_0_for_topbottom_10_for_topright
+    }
   }
 
   &:hover {
@@ -47,6 +54,21 @@
 
     .price {
       width: 10%;
+    }
+  }
+
+  //Tried_collection_item_media_query_css_change
+  @media screen and (max-width: 800px) {
+    width: 40vw;
+
+    &:hover {
+      .image {
+        opacity: unset; //Tried_unset_meaning this was never set like there was no .image styles applied
+      }
+
+      .custom-button {
+        opacity: unset;
+      }
     }
   }
 }
