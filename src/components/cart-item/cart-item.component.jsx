@@ -14,4 +14,7 @@ const CartItem = ({ item: { imageUrl, price, name, quantity } }) => (
   </div>
 );
 
-export default CartItem;
+// Tried_use_of_memo - 
+// CartItem was re-rendering in cart-dropdown even if same item was added to cart (only quantity change)
+// now CartItem would not re-render in cart-dropdown if only quantity is changed (same item added)
+export default React.memo(CartItem);

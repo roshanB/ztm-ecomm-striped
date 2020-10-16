@@ -1,5 +1,5 @@
 import React from "react";
-import "./with-spinner.styles.scss";
+import Spinner from '../spinner/spinner.component';
 
 //Tried_read_as -
 //WithSpinner takes in component to render,
@@ -7,9 +7,7 @@ import "./with-spinner.styles.scss";
 // (it is like any other component if seen the signature apart / separately)
 const WithSpinner = (WrappedComponent) => ({ isLoading, ...otherProps }) => {
   return isLoading ? (
-    <div className="spinner-overlay">
-      <div className="spinner-container"></div>
-    </div>
+    <Spinner />
   ) : (
     <WrappedComponent {...otherProps} />
   );
